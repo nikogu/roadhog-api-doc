@@ -1,0 +1,14 @@
+#!/usr/bin/env node
+
+const program = require('commander');
+
+const start = require('../lib/start');
+
+program.version('0.1.0')
+  .option('start', 'Start docs website.')
+  .option('build', 'Build docs')
+  .parse(process.argv);
+
+if (program.start) {
+  start(process.argv);
+}

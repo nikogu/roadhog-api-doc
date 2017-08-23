@@ -1,0 +1,20 @@
+{
+  "name": "roadhog-api-doc",
+  "version": "0.0.1",
+  "description": "Api docs for roadhog mock data.",
+  "bin": {
+    "roadhog-api-doc": "./bin/doc"
+  },
+  "author": "644506165@qq.com",
+  "licenses": "MIT",
+  "dependencies": {
+    "chalk": "^2.1.0",
+    "chokidar": "^1.7.0",
+    "fs-extra": "^4.0.1",
+    "shelljs": "^0.7.8"
+  },
+  "devDependencies": {},
+  "files": [
+    "lib"
+  ]
+}

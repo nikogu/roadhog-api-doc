@@ -1,0 +1,10 @@
+{
+  "name": "roadhog-api-doc-boilerplate",
+  "private": true,
+  "scripts": {
+    "start": "PORT=9898 roadhog server",
+    "build": "roadhog build"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
