@@ -3,12 +3,17 @@
 const program = require('commander');
 
 const start = require('../lib/start');
+const build = require('../lib/build');
 
 program.version('0.1.0')
   .option('start', 'Start docs website.')
-  .option('build', 'Build docs')
+  .option('build', 'Build docs.')
   .parse(process.argv);
 
 if (program.start) {
   start(process.argv);
+}
+
+if (program.build) {
+  build(process.argv);
 }

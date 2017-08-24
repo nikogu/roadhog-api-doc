@@ -25,26 +25,27 @@ function getRequest(url) {
   return mockData[Object.keys(mockData).filter(key => key.indexOf(url) > -1)[0]];
 }
 
-function handlePost(u, url, params, callback) {
+function handleRequest(u, url, params, callback) {
   const r = getRequest(u);
 
   if (isFunction(r)) {
     const req = {
       url,
+      params,
       query: params,
       body: params,
     };
     const res = {
       json: (data) => {
-        callback(data);
+        callback(data.$body || data);
       },
       send: (data) => {
-        callback(data);
+        callback(data.$body || data);
       },
     };
     r(req, res);
   } else {
-    callback(r);
+    callback(r.$body || r);
   }
 }
 
@@ -53,5 +54,5 @@ export default {
   isObject,
   getRequest,
   parseKey,
-  handlePost,
+  handleRequest,
 };

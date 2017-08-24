@@ -1,0 +1,46 @@
+html, body, :global(#root) {
+  height: 100%;
+}
+
+body {
+  background-color: #fafafa;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.apiDoc {
+  padding: 24px;
+  width: 800px;
+  :global {
+    .ant-card-head-title {
+      padding: 0;
+    }
+  }
+  h1 {
+    margin-bottom: 24px;
+  }
+  .apiItem {
+    margin-bottom: 24px;
+  }
+  .apiItemTitle {
+    span {
+      color: #31db17;
+    }
+    span:last-child {
+      color: gray;
+      margin-left: 16px;
+    }
+  }
+  .apiItemOperator {
+    a {
+      line-height: 28px;
+    }
+  }
+  .apiItemDocs {
+    margin-top: 16px;
+    h3 {
+      margin-bottom: 16px;
+    }
+  }
+}

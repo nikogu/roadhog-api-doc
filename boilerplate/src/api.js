@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Row, Col, Button, Modal, Input, Card, Table, message } from 'antd';
 import { stringify } from 'qs';
@@ -7,13 +7,13 @@ import mock from '../../.roadhogrc.mock';
 import { port, isStatic } from './config';
 import { isObject, parseKey, handleRequest } from './utils';
 
-import styles from './index.less';
+import styles from './api.less';
 
 const { TextArea } = Input;
 /* eslint no-underscore-dangle:0 */
 const mockData = mock.__mockData || mock;
 
-class ApiItem extends React.Component {
+class ApiItem extends Component {
   state = {
     urlValue: '',
     theMockData: {},
@@ -140,7 +140,7 @@ class ApiItem extends React.Component {
             </Row>
             {
               (method !== 'GET') && (dataSource.length > 0) && (
-                <Row>
+                <Row gutter={16}>
                   <Col span={12}>
                     <TextArea
                       style={{ marginTop: 16, width: '100%' }}
@@ -172,7 +172,7 @@ class ApiItem extends React.Component {
 }
 
 // eslint-disable-next-line
-class ApiDoc extends React.Component {
+class ApiDoc extends Component {
   constructor(props) {
     super(props);
     this.state = {

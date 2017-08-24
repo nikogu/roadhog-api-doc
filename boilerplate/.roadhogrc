@@ -1,5 +1,5 @@
 {
-  "entry": "src/index.js",
+  "entry": "./src/api.js",
   "env": {
     "development": {
       "extraBabelPlugins": [
@@ -18,5 +18,10 @@
   "extraBabelIncludes": [
     "../.roadhogrc.mock.js",
     "../mock/"
-  ]
+  ],
+  "externals": {
+    "antd": "antd",
+    "react": "React",
+    "react-dom": "ReactDOM"
+  }
 }
