@@ -5,7 +5,7 @@ const program = require('commander');
 const start = require('../lib/start');
 const build = require('../lib/build');
 
-program.version('0.1.0')
+program.version('0.0.4')
   .option('start', 'Start docs website.')
   .option('build', 'Build docs.')
   .parse(process.argv);
