@@ -1,6 +1,6 @@
 {
   "name": "roadhog-api-doc",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Api docs for roadhog mock data.",
   "main": "./lib/utils.js",
   "bin": {
@@ -16,6 +16,8 @@
   },
   "devDependencies": {},
   "files": [
+    "bin",
+    "boilerplate",
     "lib"
   ]
 }
