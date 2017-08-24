@@ -1,69 +1,178 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Button, Modal, Input } from 'antd';
+import { Row, Col, Button, Modal, Input, Card, Table, message } from 'antd';
 import { stringify } from 'qs';
 
 import mock from '../../.roadhogrc.mock';
 import { port } from './config';
+import { isObject, parseKey, handlePost } from './utils';
 
 import styles from './index.less';
 
 const { TextArea } = Input;
 /* eslint no-underscore-dangle:0 */
-const mockData = mock._mockData || mock;
+const mockData = mock.__mockData || mock;
 
-function isFunction(arg) {
-  return Object.prototype.toString.call(arg) === '[object Function]';
-}
-function isObject(arg) {
-  return Object.prototype.toString.call(arg) === '[object Object]';
-}
+class ApiItem extends React.Component {
+  state = {
+    urlValue: '',
+    theMockData: {},
+    postParams: undefined,
+  }
+  handleChange = (e) => {
+    this.setState({
+      urlValue: e.target.value,
+    });
+  }
 
-function parseKey(key) {
-  const arr = key.split(' ');
-  const method = arr[0];
-  const url = arr[1];
-  return {
-    method,
-    url,
-  };
-}
+  handlePostParams = (e) => {
+    let postParams;
 
-function getRequest(url) {
-  return mockData[Object.keys(mockData).filter(key => key.indexOf(url) > -1)[0]];
-}
+    try {
+      postParams = JSON.parse(e.target.value);
 
-function handlePost(url, params, callback) {
-  const r = getRequest(url);
+    } catch (err) {
+      message.error(`params parse error: ${JSON.stringify(err, null, 2)} `);
+      postParams = this.state.postParams;
+    }
 
-  if (isFunction(r)) {
-    let tempData;
-    const req = {
-      url: `http://localhost${port ? `:${port}` : ''}${url}`,
-      query: params,
-      body: params,
-    };
-    const res = {
-      json: (data) => {
-        callback(data);
-        tempData = data;
+    this.setState({
+      postParams,
+    });
+  }
+
+  handleShowData = (data) => {
+    if (this.props.onPostClick) {
+      this.props.onPostClick(data);
+    }
+  }
+
+  render() {
+    const { req, data } = this.props;
+    const { method, url: u } = parseKey(req);
+    const url = `http://localhost${port ? `:${port}` : ''}${u}`;
+    let { urlValue, postParams, modalVisible, theMockData  } = this.state;
+
+    if (!urlValue) {
+      urlValue = url;
+    }
+
+    const params = data.$params || {};
+
+    const columns = [
+      {
+        key: 'p',
+        dataIndex: 'p',
+        title: '参数',
       },
-      send: (data) => {
-        callback(data);
-        tempData = data;
+      {
+        key: 'desc',
+        dataIndex: 'desc',
+        title: '说明',
       },
-    };
-    r(req, res);
-    return tempData;
-  } else {
-    callback(r);
+      {
+        key: 'exp',
+        dataIndex: 'exp',
+        title: '样例',
+      },
+    ];
+
+    const dataSource = [];
+    const getParams = {};
+    Object.keys(params).forEach((p) => {
+      const pd = params[p];
+      if (isObject(pd)) {
+        getParams[p] = params[p].exp;
+        dataSource.push({
+          p,
+          desc: params[p].desc,
+          exp: params[p].exp,
+        });
+      } else {
+        getParams[p] = params[p];
+        dataSource.push({
+          p,
+          desc: '',
+          exp: params[p],
+        });
+      }
+    });
+
+    if (dataSource.length > 0 && method === 'GET') {
+      urlValue = `${url}?${stringify(getParams)}`;
+    }
+
+    if (!postParams) {
+      postParams = getParams;
+    }
+
+    return (
+      <Card
+        className={styles.apiItem}
+        title={<p className={styles.apiItemTitle}><span>{method}</span><span>{u}</span></p>}
+      >
+        {
+          method === 'GET' && <div className={styles.apiItemOperator}>
+            <Row gutter={16}>
+              <Col span={12}>
+                <Input value={urlValue} onChange={this.handleChange} placeholder={url} />
+              </Col>
+              <Col span={8}>
+                <a target="_blank" href={urlValue}>send</a>
+              </Col>
+            </Row>
+          </div>
+        }
+        {
+          method !== 'GET' && <div className={styles.apiItemOperator}>
+            <Row gutter={16}>
+              <Col span={12}>
+                <Input defaultValue={urlValue} onChange={this.handleChange} placeholder={url} />
+              </Col>
+              <Col span={8}>
+                <Button
+                  type="primary"
+                  onClick={() => handlePost(u, url, postParams, this.handleShowData)}
+                >
+                  send
+                </Button>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={12}>
+                <TextArea
+                  style={{ marginTop: 16, width: '100%' }}
+                  autosize={{ minRows: 2, maxRows: 20 }}
+                  value={JSON.stringify(postParams, null, 2)}
+                  onChange={this.handlePostParams}
+                />
+              </Col>
+            </Row>
+          </div>
+        }
+        {
+          (dataSource.length > 0) && <div className={styles.apiItemDocs}>
+            <h3>Params</h3>
+            <Table
+              rowKey={record => record.p}
+              pagination={false}
+              size="small"
+              columns={columns}
+              dataSource={dataSource}
+            />
+          </div>
+        }
+      </Card>
+    );
   }
 }
 
+// eslint-disable-next-line
 class ApiDoc extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      theMockData: {},
       modalVisible: false,
     };
   }
@@ -83,75 +192,15 @@ class ApiDoc extends React.Component {
 
   render() {
     const { modalVisible, theMockData } = this.state;
-
-    const apiList = Object.keys(mockData).map((key) => {
-      const keyData = parseKey(key);
-      const data = mockData[key];
-
-      // if have docs
-      let p = {};
-      let paramsList = [];
-      if (data.$params) {
-        Object.keys(data.$params).forEach((param) => {
-          if (isObject(param)) {
-            p[param] = data.$params[param].exp;
-          } else {
-            p[param] = data.$params[param];
-          }
-        });
-        paramsList = Object.keys(data.$params).map((sp) => {
-          const val = data.$params[sp];
-          if (isObject(val)) {
-            return (<li>
-              {sp}: {val.description}: {val.exp}
-            </li>);
-          } else {
-            return (<li>
-              {sp}: {val}
-            </li>);
-          }
-        });
-      }
-
-      if (keyData.method === 'GET') {
-        p = stringify(p);
-      }
-
-      if (keyData.method === 'GET') {
-        const url = `http://localhost${port ? `:${port}` : ''}${keyData.url}`;
-        return (
-          <li>
-            <a target="_blank" href={`${url}${p ? `?${p}` : ''}`}>{url}</a>
-            {
-              paramsList.length > 0 && <ul>{paramsList}</ul>
-            }
-          </li>
-        );
-      } else {
-        const url = keyData.url;
-        return (
-          <li>
-            <span>{keyData.method} {url}</span>
-            <Button
-              size="small"
-              type="primary"
-              onClick={() => handlePost(url, p, this.handleShowData)}
-            >
-              send
-            </Button>
-            {
-              paramsList.length > 0 && <ul>{paramsList}</ul>
-            }
-          </li>
-        );
-      }
-    });
-
     return (
       <div className={styles.apiDoc}>
         <h1>Api Docs</h1>
         <div className={styles.list}>
-          <ul>{apiList}</ul>
+          {
+            Object.keys(mockData).map(key =>
+              <ApiItem key={key} req={key} data={mockData[key]} onPostClick={this.handleShowData} />
+            )
+          }
         </div>
         <Modal
           title="The data"
