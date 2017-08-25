@@ -26,14 +26,7 @@ class ApiItem extends Component {
   }
 
   handlePostParams = (e) => {
-    let postParams;
-
-    try {
-      postParams = JSON.parse(e.target.value);
-    } catch (err) {
-      message.error(`params parse error: ${JSON.stringify(err, null, 2)} `);
-      postParams = this.state.postParams;
-    }
+    let postParams = e.target.value;
 
     this.setState({
       postParams,
@@ -43,6 +36,20 @@ class ApiItem extends Component {
   handleShowData = (data) => {
     if (this.props.onPostClick) {
       this.props.onPostClick(data);
+    }
+  }
+
+  handlePostRequest = (u, url, postParams) => {
+    let params;
+    if (Object.prototype.toString.call(postParams) === '[object String]') {
+      try {
+        params = JSON.parse(postParams);
+      } catch (e) {
+        message.error('parse params error: ', JSON.stringify(e, null, 2));
+      }
+    }
+    if (params) {
+      handleRequest(u, url, params, this.handleShowData);
     }
   }
 
@@ -103,7 +110,7 @@ class ApiItem extends Component {
     }
 
     if (!postParams) {
-      postParams = getParams;
+      postParams = JSON.stringify(getParams, null, 2);
     }
 
     return (
@@ -132,7 +139,7 @@ class ApiItem extends Component {
               <Col span={8}>
                 <Button
                   type="primary"
-                  onClick={() => handleRequest(u, url, postParams, this.handleShowData)}
+                  onClick={() => this.handlePostRequest(u, url, postParams)}
                 >
                   send
                 </Button>
@@ -145,7 +152,7 @@ class ApiItem extends Component {
                     <TextArea
                       style={{ marginTop: 16, width: '100%' }}
                       autosize={{ minRows: 2, maxRows: 20 }}
-                      value={JSON.stringify(postParams, null, 2)}
+                      value={postParams}
                       onChange={this.handlePostParams}
                     />
                   </Col>
