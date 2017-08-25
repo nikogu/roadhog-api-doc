@@ -112,47 +112,52 @@ class ApiItem extends Component {
         title={<p className={styles.apiItemTitle}><span>{method}</span><span>{u}</span></p>}
       >
         {
-          (!isStatic && method === 'GET') && <div className={styles.apiItemOperator}>
-            <Row gutter={16}>
-              <Col span={12}>
-                <Input value={urlValue} onChange={this.handleChange} placeholder={url} />
-              </Col>
-              <Col span={8}>
-                <a target="_blank" href={urlValue}>send</a>
-              </Col>
-            </Row>
-          </div>
+          (!isStatic && method === 'GET') && (
+            <div className={styles.apiItemOperator}>
+              <Row gutter={16}>
+                <Col span={20}>
+                  <Input value={urlValue} onChange={this.handleChange} placeholder={url} />
+                </Col>
+                <Col span={4}>
+                  <a target="_blank" href={urlValue}>send</a>
+                </Col>
+              </Row>
+            </div>
+          )
         }
         {
-          ((isStatic && method === 'GET') || method !== 'GET') && <div className={styles.apiItemOperator}>
-            <Row gutter={16}>
-              <Col span={12}>
-                <Input value={urlValue} onChange={this.handleChange} placeholder={url} />
-              </Col>
-              <Col span={8}>
-                <Button
-                  type="primary"
-                  onClick={() => handleRequest(u, url, postParams, this.handleShowData)}
-                >
-                  send
-                </Button>
-              </Col>
-            </Row>
-            {
-              (method !== 'GET') && (dataSource.length > 0) && (
-                <Row gutter={16}>
-                  <Col span={12}>
-                    <TextArea
-                      style={{ marginTop: 16, width: '100%' }}
-                      autosize={{ minRows: 2, maxRows: 20 }}
-                      value={JSON.stringify(postParams, null, 2)}
-                      onChange={this.handlePostParams}
-                    />
-                  </Col>
-                </Row>
-              )
-            }
-          </div>
+          ((isStatic && method === 'GET') || method !== 'GET') && (
+            <div className={styles.apiItemOperator}>
+              <Row gutter={16}>
+                <Col span={20}>
+                  <Input value={urlValue} onChange={this.handleChange} placeholder={url} />
+                </Col>
+                <Col span={4}>
+                  <Button
+                    type="primary"
+                    onClick={() => handleRequest(u, url, postParams, this.handleShowData)}
+                    style={{ width: '100%' }}
+                  >
+                    send
+                  </Button>
+                </Col>
+              </Row>
+              {
+                (method !== 'GET') && (dataSource.length > 0) && (
+                  <Row gutter={16}>
+                    <Col span={24}>
+                      <TextArea
+                        style={{ marginTop: 16, width: '100%' }}
+                        autosize={{ minRows: 2, maxRows: 20 }}
+                        value={JSON.stringify(postParams, null, 2)}
+                        onChange={this.handlePostParams}
+                      />
+                    </Col>
+                  </Row>
+                )
+              }
+            </div>
+          )
         }
         {
           (dataSource.length > 0) && <div className={styles.apiItemDocs}>
@@ -198,16 +203,20 @@ class ApiDoc extends Component {
     const { modalVisible, theMockData } = this.state;
     return (
       <div className={styles.apiDoc}>
-        <h1>Api Docs</h1>
-        <div className={styles.list}>
-          {
-            Object.keys(mockData).map(key =>
-              <ApiItem key={key} req={key} data={mockData[key]} onPostClick={this.handleShowData} />
-            )
-          }
-        </div>
+        <h1>API DOCS</h1>
+        <Row>
+          <Col md={16} xs={24}>
+            <div className={styles.list}>
+              {
+                Object.keys(mockData).map(key =>
+                  <ApiItem key={key} req={key} data={mockData[key]} onPostClick={this.handleShowData} />
+                )
+              }
+            </div>
+          </Col>
+        </Row>
         <Modal
-          title="The data"
+          title="Response Body"
           visible={modalVisible}
           onOk={this.handleModalCancel}
           onCancel={this.handleModalCancel}
