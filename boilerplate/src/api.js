@@ -56,7 +56,7 @@ class ApiItem extends Component {
   render() {
     const { req, data } = this.props;
     const { method, url: u } = parseKey(req);
-    const url = `http://localhost${port ? `:${port}` : ''}${u}`;
+    const url = `http://localhost${port ? `:${port}` : '8000'}${u}`;
     let { urlValue, postParams } = this.state;
 
     const params = data.$params || {};
@@ -156,7 +156,7 @@ class ApiItem extends Component {
                       <TextArea
                         style={{ marginTop: 16, width: '100%' }}
                         autosize={{ minRows: 2, maxRows: 20 }}
-                        value={JSON.stringify(postParams, null, 2)}
+                        value={postParams}
                         onChange={this.handlePostParams}
                       />
                     </Col>
