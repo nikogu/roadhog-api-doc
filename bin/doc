@@ -4,10 +4,12 @@ const program = require('commander');
 
 const start = require('../lib/start');
 const build = require('../lib/build');
+const staticFunc = require('../lib/static');
 
 program.version('0.0.4')
   .option('start', 'Start docs website.')
   .option('build', 'Build docs.')
+  .option('static', 'Transfer current project request.js(dva mode) to support static mock data.')
   .parse(process.argv);
 
 if (program.start) {
@@ -16,4 +18,8 @@ if (program.start) {
 
 if (program.build) {
   build(process.argv);
+}
+
+if (program.static) {
+  staticFunc(process.argv);
 }
