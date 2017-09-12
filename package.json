@@ -1,6 +1,6 @@
 {
   "name": "roadhog-api-doc",
-  "version": "0.1.5",
+  "version": "0.1.7",
   "description": "Api docs for roadhog mock data.",
   "main": "./lib/utils.js",
   "bin": {
@@ -11,6 +11,7 @@
   "dependencies": {
     "chalk": "^2.1.0",
     "chokidar": "^1.7.0",
+    "commander": "^2.11.0",
     "fs-extra": "^4.0.1",
     "shelljs": "^0.7.8"
   },
