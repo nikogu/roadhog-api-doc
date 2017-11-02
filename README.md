@@ -1,5 +1,7 @@
 ## roadhog api doc
 
+[![npm package](https://img.shields.io/npm/v/roadhog-api-doc.svg)](https://www.npmjs.com/package/roadhog-api-doc)
+
 ![proxy](https://user-images.githubusercontent.com/1179603/29698366-8c0302b0-8987-11e7-95de-7f119ea72905.gif)
 
 #### Feature
