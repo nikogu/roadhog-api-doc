@@ -27,6 +27,12 @@ npm install roadhog-api-doc -g
 3. in your dist dir, you can see `api.html`, `api.js`, `api.css`
 ```
 
+`Windows` need:
+
+```bash
+$ npm install cross-env --save-dev
+```
+
 #### Write docs
 
 if you need to write doc like this in `.roadhogrc.mock.js`: 
