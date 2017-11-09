@@ -1,12 +1,12 @@
 {
   "name": "roadhog-api-doc",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "description": "Api docs for roadhog mock data.",
   "main": "./lib/utils.js",
   "bin": {
     "roadhog-api-doc": "./bin/doc"
   },
-  "author": "644506165@qq.com",
+  "author": "gzhlcsy@gmail.com",
   "licenses": "MIT",
   "dependencies": {
     "chalk": "^2.1.0",

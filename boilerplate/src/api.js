@@ -60,6 +60,7 @@ class ApiItem extends Component {
     let { urlValue, postParams } = this.state;
 
     const params = data.$params || {};
+    const desc = data.$desc || '';
 
     const columns = [
       {
@@ -165,6 +166,9 @@ class ApiItem extends Component {
               }
             </div>
           )
+        }
+        {
+          desc && <p style={{ marginTop: 16 }}>{desc}</p>
         }
         {
           (dataSource.length > 0) && <div className={styles.apiItemDocs}>
