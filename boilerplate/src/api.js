@@ -56,7 +56,7 @@ class ApiItem extends Component {
   render() {
     const { req, data } = this.props;
     const { method, url: u } = parseKey(req);
-    const url = `http://localhost${port ? `:${port}` : '8000'}${u}`;
+    const url = `http://localhost${port ? `:${port}` : ':8000'}${u}`;
     let { urlValue, postParams } = this.state;
 
     const params = data.$params || {};
