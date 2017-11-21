@@ -6,37 +6,46 @@ A simple api doc site for [roadhog](https://github.com/sorrycc/roadhog) project.
 
 ![proxy](https://user-images.githubusercontent.com/1179603/29698366-8c0302b0-8987-11e7-95de-7f119ea72905.gif)
 
-#### Feature
+### Feature
 
-- support build static data
-- support write docs
-- support request editable
+- Support build static data
+- Support write docs
+- Support request editable
 
-#### How to use
+### How to use
 
-```
-// install
-npm install roadhog-api-doc -g
+#### Install
 
-// start api doc directly
-1. cd your dva(roadhog) project
-2. roadhog-api-doc start (static mock data)
-3. goto http://localhost:9898/api.html to look your docs which is depend on your .roadhogrc.mock.js
-
-// start server with roadhog project server
-1. cd your dva(roadhog) project
-2. roadhog-api-doc start 8000 (this is your roadhog project server port)
-3. goto http://localhost:9898/api.html to look your docs which is depend on your .roadhogrc.mock.js
-
-// build
-1. cd your dva(roadhog) project
-2. roadhog-api-doc build
-3. in your dist dir, you can see `api.html`, `api.js`, `api.css`
+```bash
+$ npm install roadhog-api-doc -g
 ```
 
-#### Write docs
+#### Start Server
 
-if you need to write doc like this in `.roadhogrc.mock.js`: 
+```bash
+# start api doc directly
+$ cd [roadhog project]
+$ roadhog-api-doc start
+```
+
+```bash
+# start server with roadhog project server
+$ cd [roadhog project]
+$ roadhog-api-doc start [port] # your roadhog project server port
+```
+
+#### Build
+
+```bash
+$ cd [roadhog project]
+$ roadhog-api-doc build
+```
+
+In your `dist` directory, you can see `api.html`, `api.js`, `api.css`
+
+### Write docs
+
+If you need to write doc, you can write mock data like this in `.roadhogrc.mock.js`: 
 ```
   'GET /api/currentUser': {
     $desc: "this is the api description",
@@ -56,7 +65,7 @@ if you need to write doc like this in `.roadhogrc.mock.js`:
   },
 ```
 
-you should add `format` to wrapper `.roadhogrc.mock.js`'s export:
+You should add `format` to wrapper `.roadhogrc.mock.js`'s export:
 
 ```
 import { format } from 'roadhog-api-doc';
