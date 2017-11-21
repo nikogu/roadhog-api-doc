@@ -5,8 +5,9 @@ const program = require('commander');
 const start = require('../lib/start');
 const build = require('../lib/build');
 const staticFunc = require('../lib/static');
+const pkg = require('../package.json');
 
-program.version('0.0.4')
+program.version(pkg.version)
   .option('start', 'Start docs website.')
   .option('build', 'Build docs.')
   .option('static', 'Transfer current project request.js(dva mode) to support static mock data.')

@@ -1,5 +1,7 @@
 ## roadhog api doc
 
+A simple api doc site for [roadhog](https://github.com/sorrycc/roadhog) project.
+
 [![npm package](https://img.shields.io/npm/v/roadhog-api-doc.svg)](https://www.npmjs.com/package/roadhog-api-doc)
 
 ![proxy](https://user-images.githubusercontent.com/1179603/29698366-8c0302b0-8987-11e7-95de-7f119ea72905.gif)
@@ -7,8 +9,8 @@
 #### Feature
 
 - support build static data
+- support write docs
 - support request editable
-- support write your docs
 
 #### How to use
 
@@ -16,21 +18,20 @@
 // install
 npm install roadhog-api-doc -g
 
-// start server
+// start api doc directly
 1. cd your dva(roadhog) project
-2. roadhog-api-doc start 8000(this is your roadhog server port)
+2. roadhog-api-doc start (static mock data)
+3. goto http://localhost:9898/api.html to look your docs which is depend on your .roadhogrc.mock.js
+
+// start server with roadhog project server
+1. cd your dva(roadhog) project
+2. roadhog-api-doc start 8000 (this is your roadhog project server port)
 3. goto http://localhost:9898/api.html to look your docs which is depend on your .roadhogrc.mock.js
 
 // build
 1. cd your dva(roadhog) project
 2. roadhog-api-doc build
 3. in your dist dir, you can see `api.html`, `api.js`, `api.css`
-```
-
-`Windows` need:
-
-```bash
-$ npm install cross-env --save-dev
 ```
 
 #### Write docs
@@ -75,8 +76,16 @@ const mock = {...};
 export default delay(mock, 1000);
 ```
 
-## Todo
+## QA
 
-- [ ] optimize style
-- [ ] support more docs field type 
+- Error: Module not found: Can't resolve 'babel' in '_roadhog-api-doc'
+  - try [cnpm](https://npm.taobao.org/) install your project dependencies.
+
+## CHANGELOG
+
+### 0.3.0
+
+- support dynamic update post & get when `.roadhog.mock.js` refresh
+- support docs field
+- upgrade Windows compatibility
 

@@ -4,8 +4,9 @@ import { Row, Col, Button, Modal, Input, Card, Table, message } from 'antd';
 import { stringify } from 'qs';
 
 import mock from '../../.roadhogrc.mock';
-import { port, isStatic } from './config';
+import { port, isStatic, docPort } from './config';
 import { isObject, parseKey, handleRequest } from './utils';
+import request from './request';
 
 import styles from './api.less';
 
@@ -39,7 +40,7 @@ class ApiItem extends Component {
     }
   }
 
-  handlePostRequest = (u, url, postParams) => {
+  handlePostRequest = (u, url, postParams, method) => {
     let params;
     if (Object.prototype.toString.call(postParams) === '[object String]') {
       try {
@@ -49,7 +50,16 @@ class ApiItem extends Component {
       }
     }
     if (params) {
-      handleRequest(u, url, params, this.handleShowData);
+      if (method != 'GET' && port) {
+        request(`http://localhost:${docPort}${u}`, {
+          method: 'POST',
+          body: params,
+        }).then(data => {
+          this.handleShowData(data);
+        });
+      } else {
+        handleRequest(u, url, params, this.handleShowData);
+      }
     }
   }
 
@@ -143,7 +153,7 @@ class ApiItem extends Component {
                 <Col span={4}>
                   <Button
                     type="primary"
-                    onClick={() => this.handlePostRequest(u, url, postParams)}
+                    onClick={() => this.handlePostRequest(u, url, postParams, method)}
                     style={{ width: '100%' }}
                   >
                     send
