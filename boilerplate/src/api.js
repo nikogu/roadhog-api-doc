@@ -77,6 +77,11 @@ class ApiItem extends Component {
         key: 'p',
         dataIndex: 'p',
         title: '参数',
+        render: (p, record) => {
+          return record.required
+            ? <span><span style={{ color: '#f5222d' }}>*</span> {p}</span>
+            : p;
+        },
       },
       {
         key: 'desc',
@@ -100,6 +105,7 @@ class ApiItem extends Component {
           p,
           desc: params[p].desc,
           exp: params[p].exp,
+          required: params[p].required,
         });
       } else {
         getParams[p] = params[p];

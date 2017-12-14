@@ -53,7 +53,8 @@ If you need to write doc, you can write mock data like this in `.roadhogrc.mock.
       pageSize: 1,
       page: {
         desc: '分页',
-        exp: 2
+        exp: 2,
+        required: true,
       },
     },
     $body: {
