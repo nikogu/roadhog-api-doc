@@ -92,6 +92,10 @@ export default delay(mock, 1000);
 
 ## CHANGELOG
 
+### 0.3.4
+
+- support roadhog 2.x
+
 ### 0.3.0
 
 - support dynamic update post & get when `.roadhog.mock.js` refresh
