@@ -17,10 +17,11 @@
     "portfinder": "^1.0.13",
     "shelljs": "^0.7.8"
   },
-  "devDependencies": {},
-  "files": [
-    "bin",
-    "boilerplate",
-    "lib"
-  ]
+  "devDependencies": {
+    "eslint": "^4.3.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-config-airbnb-base": "^12.0.2",
+    "eslint-config-prettier": "^2.6.0"
+  },
+  "files": ["bin", "boilerplate", "lib"]
 }
