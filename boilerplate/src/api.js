@@ -269,4 +269,4 @@ class ApiDoc extends Component {
   }
 }
 
-ReactDOM.render(<ApiDoc />, document.getElementById("root"));
+ReactDOM.render(<ApiDoc />, document.body);
