@@ -92,6 +92,10 @@ export default delay(mock, 1000);
 
 ## CHANGELOG
 
+### 1.0.0
+
+- support roadhog@2.x
+
 ### 0.3.4
 
 - support roadhog 2.x
