@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "start": "PORT=9898 ../node_modules/.bin/roadhog server",
-    "build": "../node_modules/.bin/roadhog build"
+    "build": "COMPRESS=none ../node_modules/.bin/roadhog build"
   },
   "dependencies": {},
   "devDependencies": {}
