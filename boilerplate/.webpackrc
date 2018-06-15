@@ -1,7 +1,6 @@
 {
   "entry": "src/api.js",
   "extraBabelPlugins": [
-    "transform-decorators-legacy",
     ["import", { "libraryName": "antd", "libraryDirectory": "es", "style": true }]
   ],
   "env": {
@@ -11,6 +10,7 @@
       ]
     }
   },
+  extraBabelIncludes: ['../mock'],
   "ignoreMomentLocale": true,
   "html": {
     "template": "./public/api.html"
